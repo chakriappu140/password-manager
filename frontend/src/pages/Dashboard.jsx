@@ -1,16 +1,32 @@
+// src/pages/Dashboard.jsx
 import { useEffect, useState } from "react";
 import { getPasswords, savePassword, updatePassword, deletePassword } from "../utils/api";
 import { useAuth } from "../context/authContext";
 
 const Dashboard = () => {
   const [passwords, setPasswords] = useState([]);
+  const [filtered, setFiltered] = useState([]);
+  const [search, setSearch] = useState("");
   const [form, setForm] = useState({ site: "", username: "", password: "" });
   const [editId, setEditId] = useState(null);
-  const { handleLogout } = useAuth();
+  const { logout } = useAuth();
 
   useEffect(() => {
     fetchPasswords();
   }, []);
+
+  useEffect(() => {
+    const q = search.toLowerCase();
+    setFiltered(
+      search.trim() === ""
+        ? passwords
+        : passwords.filter(
+            (p) =>
+              p.site.toLowerCase().includes(q) ||
+              p.username.toLowerCase().includes(q)
+          )
+    );
+  }, [search, passwords]);
 
   const fetchPasswords = async () => {
     try {
@@ -66,14 +82,21 @@ const Dashboard = () => {
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-semibold">Dashboard</h1>
         <button
-          onClick={handleLogout}
+          onClick={logout}
           className="bg-red-500 text-white px-3 py-1 rounded"
         >
           Logout
         </button>
       </div>
 
-      {/* Password Form */}
+      <input
+        type="text"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        placeholder="Search by site or username"
+        className="w-full p-2 border rounded mb-4"
+      />
+
       <form onSubmit={handleSubmit} className="space-y-3 mb-6">
         <input
           name="site"
@@ -104,32 +127,18 @@ const Dashboard = () => {
         </button>
       </form>
 
-      {/* Password List */}
-      {passwords.length === 0 ? (
-        <p className="text-gray-600 text-center">No passwords saved yet.</p>
+      {filtered.length === 0 ? (
+        <p className="text-gray-600 text-center">No matching passwords.</p>
       ) : (
         <ul className="space-y-2">
-          {passwords.map((entry) => (
-            <li
-              key={entry._id}
-              className="p-3 border rounded shadow-sm bg-white"
-            >
+          {filtered.map((entry) => (
+            <li key={entry._id} className="p-3 border rounded shadow-sm bg-white">
               <div><strong>Site:</strong> {entry.site}</div>
               <div><strong>Username:</strong> {entry.username}</div>
               <div><strong>Password:</strong> {entry.password}</div>
               <div className="mt-2 space-x-2">
-                <button
-                  onClick={() => handleEdit(entry)}
-                  className="text-blue-600 hover:underline"
-                >
-                  Edit
-                </button>
-                <button
-                  onClick={() => handleDelete(entry._id)}
-                  className="text-red-600 hover:underline"
-                >
-                  Delete
-                </button>
+                <button onClick={() => handleEdit(entry)} className="text-blue-600 hover:underline">Edit</button>
+                <button onClick={() => handleDelete(entry._id)} className="text-red-600 hover:underline">Delete</button>
               </div>
             </li>
           ))}
