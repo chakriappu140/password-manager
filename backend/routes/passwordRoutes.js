@@ -1,10 +1,22 @@
-import express from "express"
-import {savePassword, getPasswords} from "../controllers/passwordController.js"
-import { protect } from "../middleware/authMiddleware.js"
+import express from "express";
+import {
+  savePassword,
+  getPasswords,
+  deletePassword,
+  updatePassword, // ✅ import update controller
+} from "../controllers/passwordController.js";
+import requireAuth from "../middleware/requireAuth.js";
 
-const router = express.Router()
+const router = express.Router();
+router.use(requireAuth);
 
-router.post('/', protect, savePassword)
-router.get('/', protect, getPasswords)
+router.route("/")
+  .get(getPasswords)
+  .post(savePassword);
 
-export default router
+// ✅ Add the missing PUT route
+router.route("/:id")
+  .put(updatePassword) 
+  .delete(deletePassword);
+
+export default router;
