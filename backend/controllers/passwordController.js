@@ -1,57 +1,77 @@
 import Password from "../models/password.js";
-import crypto from "crypto";
+import { encrypt, decrypt } from "../utils/encryption.js";
 
-const algorithm = 'aes-256-cbc';
-const iv = Buffer.alloc(16, 0);
-const getKey = () => crypto.scryptSync(process.env.ENCRYPTION_SECRET, 'salt', 32);
-
+// Create and save password (encrypted)
 export const savePassword = async (req, res) => {
+  try {
     const { site, username, password } = req.body;
-    const userId = req.user.id;  // ✅ FIXED
+    const encryptedPassword = encrypt(password);
 
-    try {
-        const key = getKey();
-        const cipher = crypto.createCipheriv(algorithm, key, iv);
-        let encrypted = cipher.update(password, 'utf8', 'hex');
-        encrypted += cipher.final('hex');
+    const newEntry = new Password({
+      user: req.user.id,
+      site,
+      username,
+      encryptedPassword,
+    });
 
-        const newEntry = await Password.create({
-            user: userId,
-            site,
-            username,
-            encryptedPassword: encrypted,
-        });
+    await newEntry.save();
 
-        res.status(201).json(newEntry);
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ message: "error saving password" });
-    }
+    res.status(201).json({
+      ...newEntry.toObject(),
+      password, // return decrypted password
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Error saving password" });
+  }
 };
 
+// Get all passwords (decrypt before sending)
 export const getPasswords = async (req, res) => {
-    const userId = req.user.id;  // ✅ FIXED
+  try {
+    const passwords = await Password.find({ user: req.user.id });
 
-    try {
-        const key = getKey();
-        const entries = await Password.find({ user: userId });
+    const decrypted = passwords.map((p) => ({
+      ...p.toObject(),
+      password: decrypt(p.encryptedPassword),
+    }));
 
-        const decryptedEntries = entries.map(entry => {
-            const decipher = crypto.createDecipheriv(algorithm, key, iv);
-            let decrypted = decipher.update(entry.encryptedPassword, 'hex', 'utf8');
-            decrypted += decipher.final('utf8');
+    res.json(decrypted);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching passwords" });
+  }
+};
 
-            return {
-                _id: entry._id,
-                site: entry.site,
-                username: entry.username,
-                password: decrypted,
-            };
-        });
+// Update password (re-encrypt updated password)
+export const updatePassword = async (req, res) => {
+  try {
+    const { site, username, password } = req.body;
+    const encryptedPassword = encrypt(password);
 
-        res.json(decryptedEntries);
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ message: "error retrieving passwords" });
-    }
+    const updated = await Password.findByIdAndUpdate(
+      req.params.id,
+      {
+        site,
+        username,
+        encryptedPassword,
+      },
+      { new: true }
+    );
+
+    res.json({
+      ...updated.toObject(),
+      password, // return decrypted password
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Error updating password" });
+  }
+};
+
+// Delete password
+export const deletePassword = async (req, res) => {
+  try {
+    await Password.findByIdAndDelete(req.params.id);
+    res.json({ message: "Deleted" });
+  } catch (error) {
+    res.status(500).json({ message: "Error deleting password" });
+  }
 };

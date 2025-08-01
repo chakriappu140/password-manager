@@ -1,17 +1,12 @@
 {
-  "name": "password-manager",
-  "private": true,
-  "version": "0.0.0",
+  "name": "frontend",
+  "version": "1.0.0",
+  "main": "eslint.config.js",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "server": "cd backend && nodemon server.js",
-    "client": "cd frontend && npm run dev",
-    "fullstack": "concurrently \"npm run server\" \"npm run client\"",
     "build": "vite build",
-    "lint": "eslint .",
-    "preview": "vite preview",
-    "start": "node server.js"
+    "preview": "vite preview"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.11",
@@ -22,7 +17,6 @@
     "dotenv": "^17.2.1",
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
-    "jwt-decode": "^4.0.0",
     "mongoose": "^8.17.0",
     "nodemon": "^3.1.10",
     "react": "^19.1.0",
@@ -42,8 +36,6 @@
     "globals": "^16.3.0",
     "vite": "^7.0.4"
   },
-  "description": "This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.",
-  "main": "eslint.config.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/chakriappu140/password-manager.git"
@@ -51,8 +43,5 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/chakriappu140/password-manager/issues"
-  },
-  "homepage": "https://github.com/chakriappu140/password-manager#readme"
+  "description": ""
 }

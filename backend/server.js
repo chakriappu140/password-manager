@@ -1,22 +1,22 @@
-import express from "express"
-import mongoose from "mongoose"
-import dotenv from "dotenv"
-import cors from "cors"
+import express from "express";
+import mongoose from "mongoose";
+import dotenv from "dotenv";
+import cors from "cors";
 
-import authRoutes from "./routes/authRoutes.js"
-import passwordRoutes from "./routes/passwordRoutes.js"
+import authRoutes from "./routes/authRoutes.js";
+import passwordRoutes from "./routes/passwordRoutes.js";
 
-dotenv.config()
+dotenv.config();
 
-const app = express()
-app.use(cors())
-app.use(express.json())
+const app = express();
+app.use(cors({ origin: "http://localhost:5173", credentials: true }));
+app.use(express.json());
 
-app.use('/api/auth', authRoutes)
-app.use('/api/passwords', passwordRoutes)
+app.use("/api/auth", authRoutes);
+app.use("/api/passwords", passwordRoutes);
 
 mongoose.connect(process.env.MONGO_URI).then(() => {
-    app.listen(process.env.PORT, () => {
-        console.log(`✅Server running on http://localhost:${process.env.PORT}`)
-    })
-}).catch((err) => console.log('❌ MongoDB connection error :', err))
+  app.listen(process.env.PORT, () => {
+    console.log(`✅ Server running at http://localhost:${process.env.PORT}`);
+  });
+}).catch(err => console.error("❌ MongoDB error:", err));
