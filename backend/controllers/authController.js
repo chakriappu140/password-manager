@@ -1,7 +1,7 @@
 // backend/controllers/authController.js
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
-import User from "../models/user.js";
+import User from "../models/User.js";
 
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET || "default_secret", {

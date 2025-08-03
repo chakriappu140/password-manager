@@ -1,15 +1,16 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "description": "",
+  "description": "Secure password manager backend using Express, JWT, and MongoDB.",
   "main": "server.js",
+  "type": "module",
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": ["password-manager", "express", "mongodb", "jwt", "backend"],
+  "author": "chakri anekula",
+  "license": "MIT",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
