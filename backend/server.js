@@ -9,7 +9,7 @@ import passwordRoutes from "./routes/passwordRoutes.js";
 dotenv.config();
 
 const app = express();
-app.use(cors({ origin: 'https://password-manager-iziw7f6rg-chakris-projects-3559a4fc.vercel.app', credentials: true }));
+app.use(cors({ origin: 'https://password-manager-5swwpjges-chakris-projects-3559a4fc.vercel.app', credentials: true }));
 
 app.use(express.json());
 
