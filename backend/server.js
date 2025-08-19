@@ -9,7 +9,7 @@ import passwordRoutes from "./routes/passwordRoutes.js";
 dotenv.config();
 
 const app = express();
-app.use(cors({ origin: '*', credentials: true }));
+app.use(cors({ origin: 'https://password-manager-theta-mauve.vercel.app', credentials: true }));
 
 app.use(express.json());
 
