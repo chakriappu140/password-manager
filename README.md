@@ -100,19 +100,19 @@ Start the React app:
 npm run dev
 ```
 
-📡 API Endpoints
-Auth
-POST /api/auth/signup - Register a new user.
-POST /api/auth/login - Login and receive a JWT.
+### 📡 API Endpoints
+## Auth
+**POST** /api/auth/signup - Register a new user.
+**POST** /api/auth/login - Login and receive a JWT.
 
-Passwords
-GET /api/passwords - Retrieve all decrypted passwords (Requires Token).
-POST /api/passwords - Encrypt and save a new password (Requires Token).
-PUT /api/passwords/:id - Update an entry (Requires Token).
-DELETE /api/passwords/:id - Delete an entry (Requires Token).
+## Passwords
+**GET** /api/passwords - Retrieve all decrypted passwords (Requires Token).
+**POST** /api/passwords - Encrypt and save a new password (Requires Token).
+**PUT** /api/passwords/:id - Update an entry (Requires Token).
+**DELETE** /api/passwords/:id - Delete an entry (Requires Token).
 
-👤 Author
-Anekula Chakravarthy
-LinkedIn: https://www.linkedin.com/in/chakravarthy-anekula-2968a9257
-GitHub: https://github.com/chakriappu140
+### 👤 Author
+## Anekula Chakravarthy
+**LinkedIn:** https://www.linkedin.com/in/chakravarthy-anekula-2968a9257
+**GitHub:** https://github.com/chakriappu140
 This project was built for educational purposes to demonstrate secure data handling and full-stack development.
