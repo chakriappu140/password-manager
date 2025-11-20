@@ -73,3 +73,46 @@ cd passvault
 cd backend
 npm install
 ```
+Create a .env file in the backend folder with the following variables:
+```Code snippet
+PORT=5000
+MONGO_URI=your_mongodb_connection_string
+JWT_SECRET=your_jwt_secret_key
+ENCRYPTION_KEY=your_32_byte_encryption_key
+```
+Start the server:
+```bash
+npm start
+```
+
+### 3. Frontend Setup
+Open a new terminal:
+```bash
+cd frontend
+npm install
+```
+Create a .env file in the frontend folder:
+```Code snippet
+VITE_API_BASE_URL=http://localhost:5000
+```
+Start the React app:
+```bash
+npm run dev
+```
+
+📡 API Endpoints
+Auth
+POST /api/auth/signup - Register a new user.
+POST /api/auth/login - Login and receive a JWT.
+
+Passwords
+GET /api/passwords - Retrieve all decrypted passwords (Requires Token).
+POST /api/passwords - Encrypt and save a new password (Requires Token).
+PUT /api/passwords/:id - Update an entry (Requires Token).
+DELETE /api/passwords/:id - Delete an entry (Requires Token).
+
+👤 Author
+Anekula Chakravarthy
+LinkedIn: https://www.linkedin.com/in/chakravarthy-anekula-2968a9257
+GitHub: https://github.com/chakriappu140
+This project was built for educational purposes to demonstrate secure data handling and full-stack development.
