@@ -115,4 +115,4 @@ npm run dev
 #### Anekula Chakravarthy
 * **LinkedIn:** https://www.linkedin.com/in/chakravarthy-anekula-2968a9257
 * **GitHub:** https://github.com/chakriappu140
-This project was built for educational purposes to demonstrate secure data handling and full-stack development.
+* This project was built for educational purposes to demonstrate secure data handling and full-stack development.
